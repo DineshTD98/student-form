@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student form</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <div class="navbar2">
+          <h1>ABC School</h1>
+        </div>
+    </header>
+     <!--making a form-->
+    <section>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <h1>Student marks list</h1>
+            <form action="" id="submission" class="">
+                <div class="form-group">
+                    <label for="full name" class="form-label">Full name</label>
+                    <input type="text" value="" placeholder="enter your full name" class="form-control w-100" id="inp8">
+                </div>
+                <div>
+                    <label for="classname" class="form-label">Section name</label>
+                    <input type="text" value="" placeholder="enter your class name" class="form-control w-100" id="inp9">
+                </div>
+                <div class="form-group">
+                    <label for="contactno" class="form-label">ContactNo</label>
+                    <input type="number" value="" placeholder="enter a valid phone number" class="form-control w-100" id="inp1">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="contactno" class="form-label">Class Incharge Name</label>
+                    <input type="text" value="" placeholder="class teachers name" class="form-control w-100" id="inp2">
+                </div>
+                <h2>Marks</h2>
+                <div class="input-group mb-3">
+                      <span class="input-group-text">Tamil</span>
+                      <input type="number" value="" class="form-control" id="inp3">
+                </div>
+                <div class="input-group mb-3">
+                      <span class="input-group-text">English</span>
+                      <input type="number" value="" class="form-control" id="inp4">
+                </div>
+                 <div class="input-group mb-3">
+                      <span class="input-group-text">Maths</span>
+                      <input type="number" value="" class="form-control" id="inp5">
+                </div>
+                <div class="input-group mb-3">
+                      <span class="input-group-text">Science</span>
+                      <input type="number" value="" class="form-control" id="inp6">
+                </div>
+               <div class="input-group mb-3">
+                      <span class="input-group-text">Social-Science</span>
+                      <input type="number" value="" class="form-control" id="inp7">
+                </div> 
+                <div>
+                    <button type="submit" class="btn-success" >Submit</button>
+                </div>
+            </form>
+        </div>
+        <div id="showalert">
+               
+        </div>
+    </section>
+    <section>
+        <div>
+             <table class="table mt-3 border text-center">
+                 <thead>
+                    <th>Name</th>
+                    <th>Tamil</th>
+                    <th>English</th>
+                    <th>Maths</th>
+                    <th>Science</th>
+                    <th>Social science</th>
+                    <th>Total marks</th>
+                    <th>Grade</th>
+                    <th>Avg</th>
+                    
+                 </thead>
+                 <tbody>
+
+                 </tbody>
+             </table>
+        </div>
+    </section>
+
+    <script>
+        let inp1=document.getElementById('inp8');
+        let inp2=document.getElementById('inp9'); 
+        let inp3=document.getElementById('inp1'); 
+        let inp4=document.getElementById('inp2'); 
+        let inp5=document.getElementById('inp3'); 
+        let inp6=document.getElementById('inp4'); 
+        let inp7=document.getElementById('inp5'); 
+        let inp8=document.getElementById('inp6'); 
+        let inp9=document.getElementById('inp7');
+        let submission=document.getElementById('submission');
+        let showalert=document.getElementById('showalert');
+        let tablebody=document.querySelector('table tbody');
+    //creating a alert msg
+   //creating a array for storing data
+   let students=JSON.parse(localStorage.getItem('students'))||[];
+    function show(details){
+        showalert.innerHTML=`<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            ${details}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+            </div>`
+    }
+
+    //window onload function
+
+    window.onload = function() {
+        students.forEach(stu => {
+            let tabledata=document.createElement('tr');
+            tabledata.setAttribute('class',"content");
+            tabledata.innerHTML=`<td>${stu.name}</td>
+            <td>${stu.tamil}</td>
+            <td>${stu.english}</td>
+            <td>${stu.maths}</td>
+            <td>${stu.science}</td>
+            <td>${stu.social}</td>
+            <td>${stu.total}</td>
+            <td style="background-color:yellow">${stu.grade}</td>
+            <td>${stu.avg}</td>`;
+            tablebody.appendChild(tabledata);
+        });
+    };
+
+    submission.addEventListener('submit',(event)=>{    
+            event.preventDefault();
+            let input1=inp1.value;
+            let input2=inp2.value;
+            let input3=inp3.value;
+            let input4=inp4.value;
+            let input5=Number(inp5.value);
+            let input6=Number(inp6.value);
+            let input7=Number(inp7.value);
+            let input8=Number(inp8.value);
+            let input9=Number(inp9.value);
+
+             if (input1==''|| input2==''|| input3==''|| input4==''|| input5==NaN||
+                input6==NaN|| input7==NaN|| input8==NaN|| input9==NaN){
+
+                 show('please enter a valid input');
+                 return;
+                }
+        // creating a student object
+        
+        //total marks;
+            let totalmarks=input5 + input6 + input7 + input8 +input9;
+            let grade='';
+        //grade
+       if(totalmarks<=300){
+            grade='C' ; 
+       }
+       else if(totalmarks<=400){
+        grade='B';
+       }   
+       else if(totalmarks<=450) {
+        grade='A';
+       } 
+       else if(totalmarks>450){
+           grade='A+';
+       }
+       else if(totalmarks<230){
+        grade='fail';
+       }
+        
+    //avg marks
+
+    let avg=totalmarks/5;
+
+//creating a table data rows and append them in the table
+     
+     let tabledata=document.createElement('tr');
+
+     tabledata.setAttribute('class',"content");
+
+     tabledata.innerHTML=`<td>${input1}</td>
+     <td>${input5}</td>
+     <td>${input6}</td>
+     <td>${input7}</td>
+     <td>${input8}</td>
+     <td>${input9}</td>
+     <td >${totalmarks}</td>
+     <td style="background-color:yellow">${grade}</td>
+     <td>${avg}</td>
+     `
+        
+
+    //appending with table body
+    tablebody.appendChild(tabledata);
+
+    let student = {
+            name: input1,
+            section: input2,
+            contact: input3,
+            teacher: input4,
+            tamil: input5,
+            english: input6,
+            maths: input7,
+            science: input8,
+            social: input9,
+            total: totalmarks,
+            grade: grade,
+            avg: avg
+        };
+
+        students.push(student);
+        localStorage.setItem('students',JSON.stringify(students))
+
+//reset after submission
+            inp1.value='';
+            inp2.value='';
+            inp3.value='';
+            inp4.value='';
+            inp5.value='';
+            inp6.value='';
+            inp7.value='';
+            inp8.value='';
+            inp9.value='';
+    })
+
+    
+
+    </script>
+</body>
+</html>
